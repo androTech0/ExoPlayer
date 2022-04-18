@@ -26,7 +26,7 @@ class MainActivity : AppCompatActivity() {
      lateinit var exoPlayer: SimpleExoPlayer
 
     // url of video which we are loading.
-    var videoURL ="https://firebasestorage.googleapis.com/v0/b/courses-app-5c3b2.appspot.com/o/Videos%2FScreenrecorder-2022-04-18-06-06-09-890.mp4?alt=media&token=25939530-aa0d-412b-85f2-e038e5a6538b"
+    private var videoURL ="https://firebasestorage.googleapis.com/v0/b/courses-app-5c3b2.appspot.com/o/Videos%2FScreenrecorder-2022-04-18-06-06-09-890.mp4?alt=media&token=25939530-aa0d-412b-85f2-e038e5a6538b"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,44 +34,15 @@ class MainActivity : AppCompatActivity() {
 
         exoPlayerView = findViewById(R.id.idExoPlayerVIew)
         try {
-
-            // bandwisthmeter is used for
-            // getting default bandwidth
-            var bandwidthMeter: BandwidthMeter =  DefaultBandwidthMeter()
-
-            // track selector is used to navigate between
-            // video using a default seekbar.
-            var trackSelector: TrackSelector =  DefaultTrackSelector( AdaptiveTrackSelection.Factory(bandwidthMeter));
-
-            // we are adding our track selector to exoplayer.
+            val bandwidthMeter: BandwidthMeter =  DefaultBandwidthMeter()
+            val trackSelector: TrackSelector =  DefaultTrackSelector( AdaptiveTrackSelection.Factory(bandwidthMeter));
             exoPlayer = ExoPlayerFactory.newSimpleInstance(this, trackSelector)
-
-            // we are parsing a video url
-            // and parsing its video uri.
-            var videouri: Uri = Uri.parse(videoURL)
-
-            // we are creating a variable for datasource factory
-            // and setting its user agent as 'exoplayer_view'
-            var dataSourceFactory =  DefaultHttpDataSourceFactory("exoplayer_video")
-
-            // we are creating a variable for extractor factory
-            // and setting it to default extractor factory.
-            var extractorsFactory: ExtractorsFactory =  DefaultExtractorsFactory()
-
-            // we are creating a media source with above variables
-            // and passing our event handler as null,
-            var mediaSource: MediaSource =  ExtractorMediaSource(videouri, dataSourceFactory, extractorsFactory, null, null);
-
-            // inside our exoplayer view
-            // we are setting our player
+            val videouri: Uri = Uri.parse(videoURL)
+            val dataSourceFactory =  DefaultHttpDataSourceFactory("exoplayer_video")
+            val extractorsFactory: ExtractorsFactory =  DefaultExtractorsFactory()
+            val mediaSource: MediaSource =  ExtractorMediaSource(videouri, dataSourceFactory, extractorsFactory, null, null);
             exoPlayerView.setPlayer(exoPlayer)
-
-            // we are preparing our exoplayer
-            // with media source.
             exoPlayer.prepare(mediaSource)
-
-            // we are setting our exoplayer
-            // when it is ready.
             exoPlayer.setPlayWhenReady(true)
 
         } catch (e:Exception) {
